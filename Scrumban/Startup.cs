@@ -72,14 +72,14 @@ namespace Scrumban
                 routeBuilder.Filter().OrderBy().Count().Expand().Select();
             });
 
-            app.UseMvc(routes =>
-            {
-                routes.MapRoute(
-                    name: "default",
-                    template: "{controller}/{action=Index}/{id?}");
-                routes.EnableDependencyInjection();
-                routes.Expand().Select().Count().OrderBy().Filter(); //------
-            });
+            //app.UseMvc(routes =>
+            //{
+            //    routes.MapRoute(
+            //        name: "default",
+            //        template: "{controller}/{action=Index}/{id?}");
+            //    routes.EnableDependencyInjection();
+            //    routes.Expand().Select().Count().OrderBy().Filter(); //------
+            //});
 
             app.UseSpa(spa =>
             {

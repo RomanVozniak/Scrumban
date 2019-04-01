@@ -24,7 +24,6 @@ export default class App extends Component {
         <Route path='/fetchdata' component={FetchData} />
         <Route path='/defects' component={DefectGrid} />
         <Route path='/defect_add' component={DefectAdd} />
-			  <Route exact path='/' component={StoryGrid} />
         <Route path='/counter'      component={Counter} />
         <Route path='/fetchdata'    component={FetchData} />
         <Route path='/login'        component={Login}/>
