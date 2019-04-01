@@ -8,11 +8,13 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Scrumban.Models;
-using CustomIdentityApp.Models;
 using Microsoft.AspNet.OData.Extensions;
+using Scrumban.BusinessLogicLayer.Interfaces;
+using Scrumban.BusinessLogicLayer;
 using Scrumban.DataAccessLayer;
-
-//using Microsoft.AspNet.Identity.EntityFramework;
+using Scrumban.DataAccessLayer.Interfaces;
+using Scrumban.DataAccessLayer.Repositories;
+using CustomIdentityApp.Models;
 
 namespace Scrumban
 {
@@ -28,12 +30,11 @@ namespace Scrumban
       
         public void ConfigureServices(IServiceCollection services)
         {
-
-           
             string connection = Configuration.GetConnectionString("DefaultConnection");
-           
-            services.AddDbContext<ScrumbanContext>(options =>
-                options.UseSqlServer(connection));
+            services.AddDbContext<ScrumbanContext>(options => options.UseSqlServer(connection));
+            services.AddTransient<IDefectService, DefectService>();
+            services.AddTransient<IUnitOfWork, UnitOfWork>();
+            services.AddTransient<IDefectRepository<Defect>, DefectRepository>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
@@ -44,11 +45,6 @@ namespace Scrumban
                 configuration.RootPath = "ClientApp/build";
             });
 
-
-           
-            services.AddDbContext<ScrumbanContext>(options =>
-                options.UseSqlServer(connection));
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddOData();
         }
@@ -81,6 +77,8 @@ namespace Scrumban
                 routes.MapRoute(
                     name: "default",
                     template: "{controller}/{action=Index}/{id?}");
+                routes.EnableDependencyInjection();
+                routes.Expand().Select().Count().OrderBy().Filter(); //------
             });
 
             app.UseSpa(spa =>

@@ -1,3 +1,8 @@
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using Scrumban.BusinessLogicLayer.DTO;
 using CustomIdentityApp.Models;
 using Microsoft.EntityFrameworkCore;
 using Scrumban.Models;
@@ -10,6 +15,7 @@ namespace Scrumban.DataAccessLayer
         {
             Database.EnsureCreated();
         }
+         public DbSet<Defect> Defects { get; set; }
         public DbSet<Users> Users { get; set; }
         public DbSet<Story> Stories { get; set; }
         public DbSet<StoryState> StoryStates { get; set; }
@@ -58,5 +64,6 @@ namespace Scrumban.DataAccessLayer
             );
             base.OnModelCreating(modelBuilder);
         }
+
     }
 }
